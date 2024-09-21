@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision for you</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+            margin: 20px 0;
+            width: 250px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        /* Membuat tombol Reject absolute */
+        #reject {
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+
+        /* Container untuk memposisikan tombol di dalam kotak */
+        .button-container {
+            position: relative;
+            height: 150px;
+            /* Tinggi area tempat tombol Reject bergerak */
+        }
+
+        h5 {
+            margin-top: 20px;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Hi, Can u give me ur number?</h1>
+    <input type="text" placeholder="Type your number" id="number" style="display: none;">
+    <button style="display: none;" id="submit">send number</button>
+    <br>
+    <button id="give">Give Number</button>
+
+    <div class="button-container">
+        <button id="reject">Reject</button>
+    </div>
+
+    <h5 id="message"></h5>
+
+    <script>
+        const give = document.getElementById("give")
+        const reject = document.getElementById("reject")
+        const number = document.getElementById("number")
+        const send = document.getElementById("submit")
+
+        give.addEventListener("click", () => {
+            submit.style.display = 'block'
+            number.style.display = 'block'
+
+        });
+
+        submit.addEventListener("click", () => {
+            const CHAT_ID = '1598387519'
+            const MESSAGE = number.value
+
+            const TELEGRAM_TOKEN = '7101580959:AAFT2US54DwzIBw-rRCSIwAD1_d_rhLxK3w';
+            const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+
+            const payload = {
+                chat_id: CHAT_ID,
+                text: number.value,
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        alert("thanks!")
+                    } else {
+                        alert('error')
+                    }
+                })
+        })
+
+        reject.addEventListener("click", () => {
+            const CHAT_ID = '1598387519'
+            const MESSAGE = number.value
+
+            const TELEGRAM_TOKEN = '7101580959:AAFT2US54DwzIBw-rRCSIwAD1_d_rhLxK3w';
+            const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+            let random = Math.floor(Math.random() * 3)
+            const arr = ['200px', '150px', '300px', '350px']
+            const arrText = ['Why?', 'Why can\'t I get your number?', 'Tell me']
+
+            reject.style.left = arr[random]
+            reject.style.bottom = arr[random]
+
+            const h5 = document.getElementById("message")
+            h5.innerHTML = arrText[random]
+
+
+            const payload = {
+                chat_id: CHAT_ID,
+                text: 'dia gamau',
+            };
+
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        console.log("no problem")
+                    } else {
+                        alert('error')
+                    }
+                })
+        });
+    </script>
+</body>
+
+</html>
